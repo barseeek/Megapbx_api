@@ -9,11 +9,14 @@ def main():
 }
     domain = "vats730382.megapbx.ru"    
     load_dotenv()
+    '''
     current_number = input('Input ext number\n').strip()
     while not(current_number.isdigit()):
         current_number = input('Input ext number\n')
+    '''
     users = get_users(header, domain)
-    print(is_number_free(users,current_number))
+    free_numbers = get_free_numbers(users)
+    print(free_numbers)
 
 
 def get_users(header, domain):
@@ -29,9 +32,18 @@ def get_users(header, domain):
 
 def is_number_free(employees, number):
     for employee in employees:
-        if employee['ext'] == number:
+        if employee['ext'] == str(number):
             return False
     return True
+
+
+def get_free_numbers(users):
+    free_numbers = []
+    for number in range(105,500):
+        if is_number_free(users,number):
+            free_numbers.append(number)
+    return free_numbers
+
 
 def get_telnums(header, domain):
     params = {
